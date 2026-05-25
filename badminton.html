@@ -11,13 +11,8 @@
       background: #1a1a1a;
       color: #fff;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
       position: relative;
-      padding: 60px 20px;
+      padding: 100px 20px 80px;
     }
     canvas {
       position: fixed;
@@ -33,6 +28,7 @@
       z-index: 1;
       max-width: 800px;
       width: 100%;
+      margin: 0 auto;
       text-align: center;
     }
     .back {
@@ -56,53 +52,28 @@
     .subtitle {
       font-size: 0.85rem;
       color: rgba(255,255,255,0.3);
-      margin-bottom: 40px;
+      margin-bottom: 50px;
       letter-spacing: 0.05em;
     }
-    .reader {
-      position: relative;
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .gallery img {
       width: 100%;
       max-width: 700px;
-      margin: 0 auto;
-      cursor: pointer;
-      user-select: none;
-    }
-    .reader img {
-      width: 100%;
       display: block;
       border-radius: 2px;
-      transition: opacity 0.3s;
-    }
-    .page-num {
-      margin-top: 20px;
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.3);
-      letter-spacing: 0.1em;
-    }
-    .click-hint {
-      margin-top: 15px;
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.15);
-      letter-spacing: 0.05em;
     }
     .desc {
       max-width: 600px;
-      margin: 50px auto 0;
+      margin: 60px auto 0;
       line-height: 1.8;
       color: rgba(255,255,255,0.4);
       font-size: 0.9rem;
       text-align: left;
-    }
-    .nav-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-    }
-    .nav-left, .nav-right {
-      flex: 1;
     }
   </style>
 </head>
@@ -111,19 +82,16 @@
   <a href="catalog.html" class="back">←</a>
 
   <div class="content">
-    <h1> 羽 毛 球 </h1>
+    <h1>《羽毛球》</h1>
     <p class="subtitle">badminton</p>
 
-    <div class="reader" id="reader">
-      <img id="pageImg" src="badminton_1.JPG" alt="漫画页面">
-      <div class="nav-overlay">
-        <div class="nav-left" onclick="prevPage()"></div>
-        <div class="nav-right" onclick="nextPage()"></div>
-      </div>
+    <div class="gallery">
+      <img src="badminton_1.JPG" alt="漫画页面 1">
+      <img src="badminton_2.JPG" alt="漫画页面 2">
+      <img src="badminton_3.JPG" alt="漫画页面 3">
+      <img src="badminton_4.JPG" alt="漫画页面 4">
+      <img src="badminton_5.JPG" alt="漫画页面 5">
     </div>
-
-    <div class="page-num" id="pageNum">1 / 5</div>
-    <div class="click-hint">左半页上一页 | 右半页下一页</div>
 
     <p class="desc">
       一个男人和一个女人，在屋子里。
@@ -131,56 +99,6 @@
   </div>
 
   <script>
-    const pages = [
-      "badminton_1.JPG",
-      "badminton_2.JPG",
-      "badminton_3.JPG",
-      "badminton_4.JPG",
-      "badminton_5.JPG"
-    ];
-
-    let current = 0;
-    const imgEl = document.getElementById("pageImg");
-    const numEl = document.getElementById("pageNum");
-
-    function update() {
-      imgEl.style.opacity = 0;
-      setTimeout(() => {
-        imgEl.src = pages[current];
-        imgEl.style.opacity = 1;
-      }, 150);
-      numEl.textContent = (current + 1) + " / " + pages.length;
-    }
-
-    function nextPage() {
-      if (current < pages.length - 1) {
-        current++;
-        update();
-      }
-    }
-
-    function prevPage() {
-      if (current > 0) {
-        current--;
-        update();
-      }
-    }
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight") nextPage();
-      if (e.key === "ArrowLeft") prevPage();
-    });
-
-    let touchStartX = 0;
-    document.addEventListener("touchstart", (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-    document.addEventListener("touchend", (e) => {
-      const touchEndX = e.changedTouches[0].screenX;
-      if (touchStartX - touchEndX > 50) nextPage();
-      if (touchEndX - touchStartX > 50) prevPage();
-    });
-
     const canvas = document.getElementById('rain');
     const ctx = canvas.getContext('2d');
     let w, h;
