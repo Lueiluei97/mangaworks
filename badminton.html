@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>羽毛球 | Lei's Manga Works</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #1a1a1a;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      padding: 60px 20px;
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+    }
+    .back {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: rgba(255,255,255,0.3);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      transition: color 0.3s;
+    }
+    .back:hover { color: rgba(255,255,255,0.7); }
+    h1 {
+      font-size: 1.3rem;
+      font-weight: 300;
+      margin-bottom: 10px;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.6);
+    }
+    .subtitle {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 40px;
+      letter-spacing: 0.05em;
+    }
+    .reader {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      cursor: pointer;
+      user-select: none;
+    }
+    .reader img {
+      width: 100%;
+      display: block;
+      border-radius: 2px;
+      transition: opacity 0.3s;
+    }
+    .page-num {
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.1em;
+    }
+    .click-hint {
+      margin-top: 15px;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 0.05em;
+    }
+    .desc {
+      max-width: 600px;
+      margin: 50px auto 0;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.9rem;
+      text-align: left;
+    }
+    .nav-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+    .nav-left, .nav-right {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="rain"></canvas>
+  <div class="content">
+    <a href="catalog.html" class="back">← 返回目录</a>
+    <h1>《羽毛球》</h1>
+    <p class="subtitle">点击画面翻页</p>
+
+    <div class="reader" id="reader">
+      <img id="pageImg" src="badminton_1.jpg" alt="漫画页面">
+      <div class="nav-overlay">
+        <div class="nav-left" onclick="prevPage()"></div>
+        <div class="nav-right" onclick="nextPage()"></div>
+      </div>
+    </div>
+
+    <div class="page-num" id="pageNum">1 / 5</div>
+    <div class="click-hint">← 左半页上一页　|　右半页下一页 →</div>
+
+    <p class="desc">
+      这是一部关于羽毛球的故事。通过漫画的形式，记录了球场上的汗水、友谊与成长。
+      每一页都是一段回忆，每一个画面都承载着热爱。
+    </p>
+  </div>
+
+  <script>
+    // 漫画页面图片列表 —— 请按实际文件名修改
+    const pages = [
+      "badminton_1.JPG",
+      "badminton_2.JPG",
+      "badminton_3.JPG",
+      "badminton_4.JPG",
+      "badminton_5.JPG"
+      "badminton_6.JPG"
+    ];
+
+    let current = 0;
+    const imgEl = document.getElementById("pageImg");
+    const numEl = document.getElementById("pageNum");
+
+    function update() {
+      imgEl.style.opacity = 0;
+      setTimeout(() => {
+        imgEl.src = pages[current];
+        imgEl.style.opacity = 1;
+      }, 150);
+      numEl.textContent = (current + 1) + " / " + pages.length;
+    }
+
+    function nextPage() {
+      if (current < pages.length - 1) {
+        current++;
+        update();
+      }
+    }
+
+    function prevPage() {
+      if (current > 0) {
+        current--;
+        update();
+      }
+    }
+
+    // 键盘左右键翻页
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") nextPage();
+      if (e.key === "ArrowLeft") prevPage();
+    });
+
+    // 触摸滑动翻页
+    let touchStartX = 0;
+    document.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+    document.addEventListener("touchend", (e) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) nextPage();
+      if (touchEndX - touchStartX > 50) prevPage();
+    });
+
+    // 细雨动画
+    const canvas = document.getElementById('rain');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    const drops = [];
+    const maxDrops = 80;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Drop {
+      constructor() { this.reset(true); }
+      reset(initial = false) {
+        this.x = Math.random() * (width + 200) - 100;
+        this.y = initial ? Math.random() * height : Math.random() * -50;
+        this.len = Math.random() * 12 + 6;
+        this.speed = Math.random() * 2 + 1.5;
+        this.opacity = Math.random() * 0.15 + 0.04;
+        this.drift = Math.random() * 0.4 + 0.1;
+        this.width = Math.random() * 0.4 + 0.2;
+      }
+      update() {
+        this.y += this.speed;
+        this.x += this.drift;
+        if (this.y > height + 20) this.reset();
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x + this.drift * 0.5, this.y + this.len);
+        ctx.strokeStyle = `rgba(180,195,215,${this.opacity})`;
+        ctx.lineWidth = this.width;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+    }
+
+    for (let i = 0; i < maxDrops; i++) drops.push(new Drop());
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      drops.forEach(drop => { drop.update(); drop.draw(); });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
