@@ -14,24 +14,99 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
     }
     .box {
-      border: 0.5px solid #fff;
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(255,255,255,0.6);
       padding: 20px 40px;
       text-decoration: none;
       color: #fff;
-      font-size: 1rem;
+      font-size: 1.2rem;
       letter-spacing: 0.1em;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       cursor: pointer;
+      background: rgba(26,26,26,0.3);
+      backdrop-filter: blur(2px);
     }
     .box:hover {
-      background: #fff;
-      color: #1a1a1a;
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.9);
+      box-shadow: 0 0 30px rgba(255,255,255,0.05);
     }
   </style>
 </head>
 <body>
-  <a href="catalog.html" class="box"> 新  名  字 </a>
+  <canvas id="rain"></canvas>
+  <a href="catalog.html" class="box">Lei's Manga Works</a>
+
+  <script>
+    const canvas = document.getElementById('rain');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    const drops = [];
+    const maxDrops = 150;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Drop {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * -height;
+        this.len = Math.random() * 15 + 8;
+        this.speed = Math.random() * 3 + 2;
+        this.opacity = Math.random() * 0.25 + 0.05;
+        this.drift = Math.random() * 0.5 + 0.3;
+      }
+      update() {
+        this.y += this.speed;
+        this.x += this.drift;
+        if (this.y > height) {
+          this.reset();
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x + this.drift * 0.8, this.y + this.len);
+        ctx.strokeStyle = `rgba(200,210,230,${this.opacity})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+    }
+
+    for (let i = 0; i < maxDrops; i++) {
+      drops.push(new Drop());
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      drops.forEach(drop => {
+        drop.update();
+        drop.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
 </body>
 </html>
