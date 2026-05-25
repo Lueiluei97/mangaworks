@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>目录 | Lei's Manga Works</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      min-height: 100vh;
+      padding: 60px 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .back {
+      display: inline-block;
+      margin-bottom: 40px;
+      color: #999;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .back:hover { color: #333; }
+    h1 {
+      font-size: 2rem;
+      font-weight: 300;
+      margin-bottom: 50px;
+      text-align: center;
+      letter-spacing: 0.1em;
+    }
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .catalog-item {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .catalog-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+    .item-title {
+      font-size: 1.3rem;
+      font-weight: 400;
+    }
+    .item-arrow {
+      font-size: 1.5rem;
+      color: #ccc;
+    }
+    .catalog-item:hover .item-arrow {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back">← 返回首页</a>
+    <h1>作 品 目 录</h1>
+    <div class="catalog-grid">
+      <a href="badminton.html" class="catalog-item">
+        <span class="item-title">《羽毛球》</span>
+        <span class="item-arrow">→</span>
+      </a>
+      <a href="ami.html" class="catalog-item">
+        <span class="item-title">《阿米》</span>
+        <span class="item-arrow">→</span>
+      </a>
+      <a href="princess.html" class="catalog-item">
+        <span class="item-title">《公主奇遇记插图》</span>
+        <span class="item-arrow">→</span>
+      </a>
+      <a href="writings.html" class="catalog-item">
+        <span class="item-title">《文字作品》</span>
+        <span class="item-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
