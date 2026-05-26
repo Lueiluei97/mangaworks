@@ -62,24 +62,36 @@
     .plain-list {
       display: flex;
       flex-direction: column;
-      gap: 0;
+      gap: 8px;
     }
     .plain-item {
       display: block;
-      padding: 18px 0;
+      padding: 14px 0;
       text-decoration: none;
       color: rgba(255,255,255,0.5);
       font-size: 0.9rem;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       transition: all 0.3s ease;
       border: none;
-      text-align: center;
+      position: relative;
     }
-    .plain-item + .plain-item {
-      border-top: 1px solid rgba(255,255,255,0.06);
+    .plain-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 1px;
+      background: rgba(255,255,255,0.3);
+      transition: width 0.3s ease;
     }
     .plain-item:hover {
       color: rgba(255,255,255,0.9);
+      padding-left: 24px;
+    }
+    .plain-item:hover::before {
+      width: 16px;
     }
   </style>
 </head>
