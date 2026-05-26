@@ -47,9 +47,7 @@
       gap: 0;
     }
     .catalog-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: block;
       padding: 18px 0;
       text-decoration: none;
       color: rgba(255,255,255,0.6);
@@ -65,15 +63,6 @@
       color: rgba(255,255,255,0.95);
       padding-left: 8px;
     }
-    .item-arrow {
-      font-size: 1rem;
-      color: rgba(255,255,255,0.15);
-      transition: all 0.3s ease;
-    }
-    .catalog-item:hover .item-arrow {
-      color: rgba(255,255,255,0.5);
-      transform: translateX(3px);
-    }
   </style>
 </head>
 <body>
@@ -81,22 +70,10 @@
   <div class="container">
     <h1>目 录</h1>
     <div class="catalog-list">
-      <a href="badminton.html" class="catalog-item">
-        <span>羽毛球</span>
-        <span class="item-arrow">→</span>
-      </a>
-      <a href="ami.html" class="catalog-item">
-        <span>阿米</span>
-        <span class="item-arrow">→</span>
-      </a>
-      <a href="princess.html" class="catalog-item">
-        <span>公主奇遇记</span>
-        <span class="item-arrow">→</span>
-      </a>
-      <a href="writings.html" class="catalog-item">
-        <span>一些文字</span>
-        <span class="item-arrow">→</span>
-      </a>
+      <a href="badminton.html" class="catalog-item">羽毛球</a>
+      <a href="ami.html" class="catalog-item">阿米</a>
+      <a href="princess.html" class="catalog-item">公主奇遇记</a>
+      <a href="writings.html" class="catalog-item">一些文字</a>
     </div>
   </div>
 
