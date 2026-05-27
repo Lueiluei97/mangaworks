@@ -74,6 +74,11 @@
       max-width: 700px;
       display: block;
       border-radius: 2px;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .gallery img.loaded {
+      opacity: 1;
     }
     .desc {
       max-width: 600px;
@@ -98,12 +103,12 @@
     </p>
 
     <div class="gallery">
-      <img src="princess/princess_1.jpeg" alt="插图 1">
-      <img src="princess/princess_2.jpg" alt="插图 2">
-      <img src="princess/princess_3.jpg" alt="插图 3">
-      <img src="princess/princess_4.jpg" alt="插图 4">
-      <img src="princess/princess_5.jpeg" alt="插图 5">
-      <img src="princess/princess_6.jpeg" alt="插图 6">
+      <img data-src="princess/princess_1.jpeg" alt="插图 1">
+      <img data-src="princess/princess_2.jpg" alt="插图 2">
+      <img data-src="princess/princess_3.jpg" alt="插图 3">
+      <img data-src="princess/princess_4.jpg" alt="插图 4">
+      <img data-src="princess/princess_5.jpeg" alt="插图 5">
+      <img data-src="princess/princess_6.jpeg" alt="插图 6">
     </div>
 
     <p class="desc">
@@ -112,6 +117,23 @@
   </div>
 
   <script>
+    const images = document.querySelectorAll('.gallery img');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          img.onload = () => img.classList.add('loaded');
+          observer.unobserve(img);
+        }
+      });
+    }, {
+      rootMargin: '100px 0px',
+      threshold: 0.01
+    });
+
+    images.forEach(img => imageObserver.observe(img));
+
     const canvas = document.getElementById('rain');
     const ctx = canvas.getContext('2d');
     let w, h;
