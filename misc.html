@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>杂 | Lei's Manga Works</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #1a1a1a;
+      color: #fff;
+      min-height: 100vh;
+      position: relative;
+      padding: 100px 20px 80px;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .back {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      z-index: 2;
+      color: rgba(255,255,255,0.3);
+      text-decoration: none;
+      font-size: 1.5rem;
+      transition: color 0.3s;
+    }
+    .back:hover { color: rgba(255,255,255,0.8); }
+    h1 {
+      font-size: 1.3rem;
+      font-weight: 300;
+      margin-bottom: 10px;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.6);
+    }
+    .subtitle {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 50px;
+      letter-spacing: 0.05em;
+    }
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .gallery img {
+      width: 100%;
+      max-width: 700px;
+      display: block;
+      border-radius: 2px;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .gallery img.loaded {
+      opacity: 1;
+    }
+    .desc {
+      max-width: 600px;
+      margin: 60px auto 0;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.9rem;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="rain"></canvas>
+  <a href="catalog.html" class="back">←</a>
+
+  <div class="content">
+    <h1> 杂 </h1>
+    <p class="subtitle">miscellaneous</p>
+
+    <div class="gallery">
+      <img data-src="misc/misc_firstone.jpg" alt="杂项 1">
+      <img data-src="misc/misc_1.jpeg" alt="杂项 1">
+      <img data-src="misc/misc_2.jpeg" alt="杂项 2">
+      <img data-src="misc/misc_3.jpeg" alt="杂项 3">
+      <img data-src="misc/misc_4.webp" alt="杂项 4">
+      <img data-src="misc/misc_5.jpg" alt="杂项 5">
+      <img data-src="misc/misc_6.jpg" alt="杂项 6">
+    </div>
+
+    <p class="desc">
+      一些零散的涂鸦和随笔。
+    </p>
+  </div>
+
+  <script>
+    const images = document.querySelectorAll('.gallery img');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          img.onload = () => img.classList.add('loaded');
+          observer.unobserve(img);
+        }
+      });
+    }, {
+      rootMargin: '100px 0px',
+      threshold: 0.01
+    });
+
+    images.forEach(img => imageObserver.observe(img));
+
+    const canvas = document.getElementById('rain');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    const drops = [];
+    const maxDrops = 80;
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Drop {
+      constructor() { this.reset(true); }
+      reset(initial = false) {
+        this.x = Math.random() * (w + 200) - 100;
+        this.y = initial ? Math.random() * h : Math.random() * -50;
+        this.len = Math.random() * 12 + 6;
+        this.speed = Math.random() * 2 + 1.5;
+        this.opacity = Math.random() * 0.15 + 0.04;
+        this.drift = Math.random() * 0.4 + 0.1;
+        this.width = Math.random() * 0.4 + 0.2;
+      }
+      update() {
+        this.y += this.speed;
+        this.x += this.drift;
+        if (this.y > h + 20) this.reset();
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x + this.drift * 0.5, this.y + this.len);
+        ctx.strokeStyle = `rgba(180,195,215,${this.opacity})`;
+        ctx.lineWidth = this.width;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+    }
+
+    for (let i = 0; i < maxDrops; i++) drops.push(new Drop());
+
+    function animate() {
+      ctx.clearRect(0, 0, w, h);
+      drops.forEach(d => { d.update(); d.draw(); });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
