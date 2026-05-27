@@ -1,149 +1,317 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
+
 <head>
+
   <meta charset="utf-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>阿米 | Lei's Manga Works</title>
-  <!-- 预加载封面，让它尽快出现 -->
-  <link rel="preload" as="image" href="ami/ami_cover.png" type="image/png">
+
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+
+    * {
+
+      margin: 0;
+
+      padding: 0;
+
+      box-sizing: border-box;
+
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+      font-family:
+
+        -apple-system,
+
+        BlinkMacSystemFont,
+
+        "Segoe UI",
+
+        Roboto,
+
+        "Helvetica Neue",
+
+        Arial,
+
+        sans-serif;
+
       background: #1a1a1a;
+
       color: #fff;
+
       min-height: 100vh;
-      position: relative;
-      padding: 100px 20px 80px;
+
+      padding: 90px 16px 70px;
+
       overflow-x: hidden;
+
     }
+
     .content {
-      position: relative;
-      z-index: 1;
+
       max-width: 800px;
-      width: 100%;
+
       margin: 0 auto;
+
       text-align: center;
-      /* 隔离渲染，防止内部变化影响外部重排 */
-      contain: layout style paint;
+
     }
+
     .back {
+
       position: fixed;
-      top: 30px; left: 30px;
-      z-index: 2;
-      color: rgba(255,255,255,0.3);
+
+      top: 24px;
+
+      left: 24px;
+
+      color: rgba(255,255,255,0.35);
+
       text-decoration: none;
-      font-size: 1.5rem;
-      transition: color 0.3s;
-      will-change: transform;
-      transform: translateZ(0);
+
+      font-size: 1.4rem;
+
+      z-index: 10;
+
     }
-    .back:hover { color: rgba(255,255,255,0.8); }
+
     h1 {
+
       font-size: 1.3rem;
+
       font-weight: 300;
-      margin-bottom: 10px;
+
       letter-spacing: 0.15em;
+
+      margin-bottom: 10px;
+
       color: rgba(255,255,255,0.6);
+
     }
+
     .subtitle {
+
       font-size: 0.85rem;
+
       color: rgba(255,255,255,0.3);
-      margin-bottom: 50px;
+
+      margin-bottom: 42px;
+
       letter-spacing: 0.05em;
+
     }
+
     .gallery {
+
       display: flex;
+
       flex-direction: column;
+
       align-items: center;
-      gap: 20px;
+
+      gap: 18px;
+
     }
+
     .gallery img {
+
       width: 100%;
+
       max-width: 700px;
+
       height: auto;
+
       display: block;
+
       border-radius: 2px;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      /* 异步解码，不阻塞主线程 */
-      decoding: async;
-      /* 隔离单张图片渲染 */
-      contain: layout style paint;
+
+      background: #222;
+
     }
-    .gallery img.loaded, .gallery img:first-child {
-      opacity: 1;
-    }
+
     .desc {
+
       max-width: 600px;
+
       margin: 60px auto 0;
-      line-height: 1.8;
-      color: rgba(255,255,255,0.4);
+
+      line-height: 1.9;
+
+      color: rgba(255,255,255,0.42);
+
       font-size: 0.9rem;
+
       text-align: left;
+
     }
+
+    @media (max-width: 768px) {
+
+      body {
+
+        padding: 80px 12px 60px;
+
+      }
+
+      .gallery {
+
+        gap: 14px;
+
+      }
+
+      .back {
+
+        top: 18px;
+
+        left: 18px;
+
+      }
+
+      .desc {
+
+        font-size: 0.88rem;
+
+        line-height: 1.85;
+
+      }
+
+    }
+
   </style>
-  <base target="_blank">
-<base target="_blank">
+
 </head>
+
 <body>
+
   <a href="index.html" class="back">←</a>
 
   <div class="content">
-    <h1> 阿 米 </h1>
+
+    <h1>阿 米</h1>
+
     <p class="subtitle">ami</p>
 
     <div class="gallery">
-      <!-- 封面：优先加载，异步解码 -->
-      <img src="ami/ami_cover.png" alt="漫画封面" width="700" height="990" fetchpriority="high" decoding="async">
-      <!-- 内页：懒加载 + 异步解码，滚动到附近才加载 -->
-      <img data-src="ami/ami_1.webp" alt="漫画页面 1" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_2.webp" alt="漫画页面 2" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_3.webp" alt="漫画页面 3" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_4.webp" alt="漫画页面 4" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_5.webp" alt="漫画页面 5" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_6.webp" alt="漫画页面 6" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_7.webp" alt="漫画页面 7" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_8.webp" alt="漫画页面 8" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_9.webp" alt="漫画页面 9" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_10.webp" alt="漫画页面 10" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_11.webp" alt="漫画页面 11" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_12.webp" alt="漫画页面 12" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_13.webp" alt="漫画页面 13" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_14.webp" alt="漫画页面 14" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_15.webp" alt="漫画页面 15" width="700" height="990" loading="lazy" decoding="async">
-      <img data-src="ami/ami_16.webp" alt="漫画页面 16" width="700" height="990" loading="lazy" decoding="async">
+
+      <!-- 封面 -->
+
+      <img
+
+        src="ami/ami_cover.webp"
+
+        alt="漫画封面"
+
+        loading="eager"
+
+        decoding="async"
+
+      >
+
+      <!-- 内页 -->
+
+      <img data-src="ami/ami_1.webp" alt="漫画页面1">
+
+      <img data-src="ami/ami_2.webp" alt="漫画页面2">
+
+      <img data-src="ami/ami_3.webp" alt="漫画页面3">
+
+      <img data-src="ami/ami_4.webp" alt="漫画页面4">
+
+      <img data-src="ami/ami_5.webp" alt="漫画页面5">
+
+      <img data-src="ami/ami_6.webp" alt="漫画页面6">
+
+      <img data-src="ami/ami_7.webp" alt="漫画页面7">
+
+      <img data-src="ami/ami_8.webp" alt="漫画页面8">
+
+      <img data-src="ami/ami_9.webp" alt="漫画页面9">
+
+      <img data-src="ami/ami_10.webp" alt="漫画页面10">
+
+      <img data-src="ami/ami_11.webp" alt="漫画页面11">
+
+      <img data-src="ami/ami_12.webp" alt="漫画页面12">
+
+      <img data-src="ami/ami_13.webp" alt="漫画页面13">
+
+      <img data-src="ami/ami_14.webp" alt="漫画页面14">
+
+      <img data-src="ami/ami_15.webp" alt="漫画页面15">
+
+      <img data-src="ami/ami_16.webp" alt="漫画页面16">
+
     </div>
 
     <p class="desc">
+
       这篇漫画画于2025年的下半年，当时只画了一半，在两个月前报名参加挖矿漫画节后又再翻出来把它画完。
-去年我也感觉自己陷入比较抑郁的状况之中，当时画的时候脑海里创造出了一个朋友的形象（Ami在法语里有朋友的意思），相当于是主角在给一个虚幻的朋友写的信，这个虚幻的朋友关注着她，给她提供力量，同时阿米身上也有她所不理解的东西。 <br>虽然没有办法立马就让读完漫画的朋友高兴起来，但还是希望所有人都有从消沉中抬起头望天空的心情。 <br>感谢你的阅读。
+
+      <br><br>
+
+      去年我也感觉自己陷入比较抑郁的状况之中，当时画的时候脑海里创造出了一个朋友的形象（Ami 在法语里有“朋友”的意思），相当于是主角在给一个虚幻的朋友写的信。
+
+      <br><br>
+
+      这个虚幻的朋友关注着她，给她提供力量，同时阿米身上也有她所不理解的东西。
+
+      <br><br>
+
+      虽然没有办法立刻让读完漫画的朋友高兴起来，但还是希望所有人都有从消沉中抬起头望天空的心情。
+
+      <br><br>
+
+      感谢你的阅读。
+
     </p>
+
   </div>
 
   <script>
-    // 懒加载：滚动到附近才加载内页图片
-    const lazyImages = document.querySelectorAll('.gallery img[data-src]');
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const img = entry.target;
-            img.src = img.dataset.src;
-            img.onload = () => img.classList.add('loaded');
-            obs.unobserve(img);
-          }
-        });
-      }, { rootMargin: '300px 0px', threshold: 0 });
-      lazyImages.forEach(img => observer.observe(img));
-    } else {
-      // 降级：不支持 IntersectionObserver 时直接加载
-      lazyImages.forEach(img => {
-        img.src = img.dataset.src;
-        img.onload = () => img.classList.add('loaded');
+
+    const lazyImages = document.querySelectorAll('img[data-src]');
+
+    const observer = new IntersectionObserver((entries, obs) => {
+
+      entries.forEach(entry => {
+
+        if (entry.isIntersecting) {
+
+          const img = entry.target;
+
+          img.src = img.dataset.src;
+
+          img.loading = "lazy";
+
+          img.decoding = "async";
+
+          obs.unobserve(img);
+
+        }
+
       });
-    }
+
+    }, {
+
+      rootMargin: '0px',
+
+      threshold: 0
+
+    });
+
+    lazyImages.forEach(img => {
+
+      observer.observe(img);
+
+    });
+
   </script>
+
 </body>
+
 </html>
