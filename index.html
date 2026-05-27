@@ -23,7 +23,7 @@
       pointer-events: none;
     }
 
-    /* 首屏封面区域 - 保持原有风格 */
+    /* 首屏封面区域 */
     .hero {
       position: relative;
       z-index: 1;
@@ -104,22 +104,19 @@
       text-decoration: none;
       transition: all 0.3s ease;
     }
+
+    /* 关键改动：preview-box 样式现在和 .box 完全一致 */
     .preview-box {
       width: 150px;
       height: 100px;
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 0px solid rgba(255,255,255,0.15);
+      background: transparent;
       overflow: hidden;
-      background: #000;
-      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-      position: relative;
-    }
-    .catalog-card:hover .preview-box {
-      border-color: rgba(255,255,255,0.35);
-      transform: translateY(-4px) scale(1.02);
+      transition: all 0.5s ease;
+      cursor: pointer;
       box-shadow:
-        0 30px 80px rgba(0,0,0,0.9),
-        0 0 0 1px rgba(255,255,255,0.1),
-        0 0 40px rgba(255,255,255,0.04);
+        0 20px 60px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(255,255,255,0.05);
     }
     .preview-box img {
       width: 100%;
@@ -127,7 +124,17 @@
       object-fit: cover;
       display: block;
       opacity: 0.85;
-      transition: opacity 0.3s;
+      mix-blend-mode: screen;
+    }
+
+    /* hover 效果和 .box:hover 完全一致 */
+    .catalog-card:hover .preview-box {
+      border-color: rgba(255,255,255,0.3);
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.9),
+        0 0 0 1px rgba(255,255,255,0.1),
+        0 0 40px rgba(255,255,255,0.04);
+      transform: translateY(-4px) scale(1.02);
     }
     .catalog-card:hover .preview-box img {
       opacity: 1;
@@ -174,7 +181,7 @@
     <a href="about.html" class="box">
       <img src="cover.gif" alt="cover">
     </a>
-    <div class="scroll-hint">↓ 向下滚动浏览作品 ↓</div>
+    <div class="scroll-hint">↓ 滑动浏览 ↓</div>
   </div>
 
   <!-- 目录瀑布流 -->
@@ -194,13 +201,13 @@
       </a>
       <a href="princess.html" class="catalog-card">
         <div class="preview-box">
-          <img src="princess_preview.PNG" alt=" 公 主 奇 遇 记 ">
+          <img src="princess_preview.PNG" alt="公主奇遇记">
         </div>
-        <p class="card-title">公主奇遇记</p>
+        <p class="card-title"> 公 主 奇 遇 记 </p>
       </a>
       <a href="misc.html" class="catalog-card">
         <div class="preview-box">
-          <img src="misc_preview.JPG" alt="杂多">
+          <img src="misc_preview.JPG" alt="杂">
         </div>
         <p class="card-title"> 杂 多 </p>
       </a>
@@ -208,7 +215,8 @@
   </div>
 
   <div class="footer">
-    阅读愉快！
+    祝阅读愉快！
+    <span class="sign">——新名字</span>
   </div>
 
   <script>
