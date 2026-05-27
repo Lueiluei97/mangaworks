@@ -4,8 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>阿米 | Lei's Manga Works</title>
+  <link rel="preload" as="image" href="ami/ami_cover.png" type="image/png">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: #1a1a1a;
@@ -13,15 +15,15 @@
       min-height: 100vh;
       position: relative;
       padding: 100px 20px 80px;
+      overflow-x: hidden;
     }
     canvas {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 0;
       pointer-events: none;
+      contain: strict;
     }
     .content {
       position: relative;
@@ -30,16 +32,18 @@
       width: 100%;
       margin: 0 auto;
       text-align: center;
+      contain: layout style paint;
     }
     .back {
       position: fixed;
-      top: 30px;
-      left: 30px;
+      top: 30px; left: 30px;
       z-index: 2;
       color: rgba(255,255,255,0.3);
       text-decoration: none;
       font-size: 1.5rem;
       transition: color 0.3s;
+      will-change: transform;
+      transform: translateZ(0);
     }
     .back:hover { color: rgba(255,255,255,0.8); }
     h1 {
@@ -64,16 +68,15 @@
     .gallery img {
       width: 100%;
       max-width: 700px;
+      height: auto;
       display: block;
       border-radius: 2px;
       opacity: 0;
-      transition: opacity 0.6s ease;
+      transition: opacity 0.4s ease;
+      decoding: async;
+      contain: layout style paint;
     }
-    .gallery img.loaded {
-      opacity: 1;
-    }
-    /* 封面直接显示，不需要淡入 */
-    .gallery img:first-child {
+    .gallery img.loaded, .gallery img:first-child {
       opacity: 1;
     }
     .desc {
@@ -85,6 +88,7 @@
       text-align: left;
     }
   </style>
+<base target="_blank">
 </head>
 <body>
   <canvas id="rain"></canvas>
@@ -95,24 +99,23 @@
     <p class="subtitle">ami</p>
 
     <div class="gallery">
-      <!-- 封面直接加载，内页懒加载 -->
-      <img src="ami/ami_cover.png" alt="漫画封面">
-      <img data-src="ami/ami_1.webp" alt="漫画页面 1">
-      <img data-src="ami/ami_2.webp" alt="漫画页面 2">
-      <img data-src="ami/ami_3.webp" alt="漫画页面 3">
-      <img data-src="ami/ami_4.webp" alt="漫画页面 4">
-      <img data-src="ami/ami_5.webp" alt="漫画页面 5">
-      <img data-src="ami/ami_6.webp" alt="漫画页面 6">
-      <img data-src="ami/ami_7.webp" alt="漫画页面 7">
-      <img data-src="ami/ami_8.webp" alt="漫画页面 8">
-      <img data-src="ami/ami_9.webp" alt="漫画页面 9">
-      <img data-src="ami/ami_10.webp" alt="漫画页面 10">
-      <img data-src="ami/ami_11.webp" alt="漫画页面 11">
-      <img data-src="ami/ami_12.webp" alt="漫画页面 12">
-      <img data-src="ami/ami_13.webp" alt="漫画页面 13">
-      <img data-src="ami/ami_14.webp" alt="漫画页面 14">
-      <img data-src="ami/ami_15.webp" alt="漫画页面 15">
-      <img data-src="ami/ami_16.webp" alt="漫画页面 16">
+      <img src="ami/ami_cover.png" alt="漫画封面" width="700" height="990" fetchpriority="high" decoding="async">
+      <img data-src="ami/ami_1.webp" alt="漫画页面 1" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_2.webp" alt="漫画页面 2" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_3.webp" alt="漫画页面 3" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_4.webp" alt="漫画页面 4" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_5.webp" alt="漫画页面 5" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_6.webp" alt="漫画页面 6" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_7.webp" alt="漫画页面 7" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_8.webp" alt="漫画页面 8" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_9.webp" alt="漫画页面 9" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_10.webp" alt="漫画页面 10" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_11.webp" alt="漫画页面 11" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_12.webp" alt="漫画页面 12" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_13.webp" alt="漫画页面 13" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_14.webp" alt="漫画页面 14" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_15.webp" alt="漫画页面 15" width="700" height="990" loading="lazy" decoding="async">
+      <img data-src="ami/ami_16.webp" alt="漫画页面 16" width="700" height="990" loading="lazy" decoding="async">
     </div>
 
     <p class="desc">
@@ -122,29 +125,34 @@
   </div>
 
   <script>
-    // 懒加载
-    const images = document.querySelectorAll('.gallery img[data-src]');
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = img.dataset.src;
-          img.onload = () => img.classList.add('loaded');
-          observer.unobserve(img);
-        }
+    // ========== 懒加载 ==========
+    const lazyImages = document.querySelectorAll('.gallery img[data-src]');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            img.onload = () => img.classList.add('loaded');
+            obs.unobserve(img);
+          }
+        });
+      }, { rootMargin: '300px 0px', threshold: 0 });
+      lazyImages.forEach(img => observer.observe(img));
+    } else {
+      lazyImages.forEach(img => {
+        img.src = img.dataset.src;
+        img.onload = () => img.classList.add('loaded');
       });
-    }, {
-      rootMargin: '100px 0px',
-      threshold: 0.01
-    });
-    images.forEach(img => imageObserver.observe(img));
+    }
 
-    // 雨滴动画
+    // ========== 雨滴动画（高性能版） ==========
     const canvas = document.getElementById('rain');
     const ctx = canvas.getContext('2d');
-    let w, h;
-    const drops = [];
-    const maxDrops = 80;
+    let w, h, animId;
+    const MAX_DROPS = 50;
+    const STRIDE = 7; // x, y, len, speed, opacity, drift, width
+    const drops = new Float32Array(MAX_DROPS * STRIDE);
 
     function resize() {
       w = canvas.width = window.innerWidth;
@@ -153,41 +161,60 @@
     window.addEventListener('resize', resize);
     resize();
 
-    class Drop {
-      constructor() { this.reset(true); }
-      reset(initial = false) {
-        this.x = Math.random() * (w + 200) - 100;
-        this.y = initial ? Math.random() * h : Math.random() * -50;
-        this.len = Math.random() * 12 + 6;
-        this.speed = Math.random() * 2 + 1.5;
-        this.opacity = Math.random() * 0.15 + 0.04;
-        this.drift = Math.random() * 0.4 + 0.1;
-        this.width = Math.random() * 0.4 + 0.2;
-      }
-      update() {
-        this.y += this.speed;
-        this.x += this.drift;
-        if (this.y > h + 20) this.reset();
-      }
-      draw() {
+    function resetDrop(i, initial) {
+      const off = i * STRIDE;
+      drops[off]     = Math.random() * (w + 200) - 100;
+      drops[off + 1] = initial ? Math.random() * h : Math.random() * -50;
+      drops[off + 2] = Math.random() * 12 + 6;
+      drops[off + 3] = Math.random() * 2 + 1.5;
+      drops[off + 4] = Math.random() * 0.15 + 0.04;
+      drops[off + 5] = Math.random() * 0.4 + 0.1;
+      drops[off + 6] = Math.random() * 0.4 + 0.2;
+    }
+    for (let i = 0; i < MAX_DROPS; i++) resetDrop(i, true);
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.lineCap = 'round';
+      for (let i = 0; i < MAX_DROPS; i++) {
+        const off = i * STRIDE;
+        let x = drops[off];
+        let y = drops[off + 1];
+        const len = drops[off + 2];
+        const speed = drops[off + 3];
+        const opacity = drops[off + 4];
+        const drift = drops[off + 5];
+        const lw = drops[off + 6];
+
+        y += speed;
+        x += drift;
+        if (y > h + 20) {
+          y = Math.random() * -50;
+          x = Math.random() * (w + 200) - 100;
+        }
+        drops[off] = x;
+        drops[off + 1] = y;
+
         ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x + this.drift * 0.5, this.y + this.len);
-        ctx.strokeStyle = `rgba(180,195,215,${this.opacity})`;
-        ctx.lineWidth = this.width;
-        ctx.lineCap = 'round';
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + drift * 0.5, y + len);
+        ctx.strokeStyle = 'rgba(180,195,215,' + opacity.toFixed(3) + ')';
+        ctx.lineWidth = lw;
         ctx.stroke();
       }
+      animId = requestAnimationFrame(draw);
     }
 
-    for (let i = 0; i < maxDrops; i++) drops.push(new Drop());
+    // 切标签页时暂停，省 CPU
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animId);
+      } else {
+        draw();
+      }
+    });
 
-    function animate() {
-      ctx.clearRect(0, 0, w, h);
-      drops.forEach(d => { d.update(); d.draw(); });
-      requestAnimationFrame(animate);
-    }
-    animate();
+    draw();
   </script>
 </body>
 </html>
