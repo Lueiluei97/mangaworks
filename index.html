@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lei's Manga Works</title>
+  <!-- 预加载首屏封面，提升首屏速度 -->
+  <link rel="preload" as="image" href="cover.gif" type="image/gif">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -172,6 +174,7 @@
     }
   </style>
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
   <canvas id="rain"></canvas>
@@ -179,7 +182,8 @@
   <!-- 首屏封面 -->
   <div class="hero">
     <a href="about.html" class="box">
-      <img src="cover.gif" alt="cover">
+      <!-- 首屏图片：立即加载，异步解码，声明尺寸防止布局偏移 -->
+      <img src="cover.gif" alt="cover" width="150" height="100" decoding="async" fetchpriority="high">
     </a>
     <div class="scroll-hint">↓ 滑动浏览 ↓</div>
   </div>
@@ -189,31 +193,32 @@
     <div class="catalog-grid">
       <a href="ami.html" class="catalog-card">
         <div class="preview-box">
-          <img src="ami_preview.jpg" alt="阿米">
+          <!-- 非首屏图片：懒加载，异步解码，声明尺寸 -->
+          <img src="ami_preview.jpg" alt="阿米" width="150" height="100" loading="lazy" decoding="async">
         </div>
         <p class="card-title"> 阿 米 </p>
       </a>
       <a href="badminton.html" class="catalog-card">
         <div class="preview-box">
-          <img src="badminton_preview.jpg" alt="羽毛球">
+          <img src="badminton_preview.jpg" alt="羽毛球" width="150" height="100" loading="lazy" decoding="async">
         </div>
         <p class="card-title"> 羽 毛 球 </p>
       </a>
       <a href="princess.html" class="catalog-card">
         <div class="preview-box">
-          <img src="princess_preview.jpg" alt="公主奇遇记">
+          <img src="princess_preview.jpg" alt="公主奇遇记" width="150" height="100" loading="lazy" decoding="async">
         </div>
         <p class="card-title"> 公 主 奇 遇 记 </p>
       </a>
       <a href="neveragain.html" class="catalog-card">
         <div class="preview-box">
-          <img src="neveragain_preview.jpg" alt="不画了">
+          <img src="neveragain_preview.jpg" alt="不画了" width="150" height="100" loading="lazy" decoding="async">
         </div>
         <p class="card-title"> 不 画 了 </p>
       </a>
       <a href="misc.html" class="catalog-card">
         <div class="preview-box">
-          <img src="misc_preview.jpg" alt="杂">
+          <img src="misc_preview.jpg" alt="杂" width="150" height="100" loading="lazy" decoding="async">
         </div>
         <p class="card-title"> 杂 多 </p>
       </a>
