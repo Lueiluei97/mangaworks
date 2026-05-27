@@ -63,6 +63,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      margin-bottom: 50px;
     }
     .plain-item {
       display: block;
@@ -92,6 +93,24 @@
     }
     .plain-item:hover::before {
       width: 16px;
+    }
+    /* 欢迎区域 */
+    .welcome-section {
+      padding: 8px 4px;
+    }
+    .welcome-text {
+      text-align: left;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      letter-spacing: 0.05em;
+    }
+    .welcome-signature {
+      text-align: right;
+      color: rgba(255,255,255,0.45);
+      font-size: 0.85rem;
+      margin-top: 14px;
+      letter-spacing: 0.08em;
     }
   </style>
 </head>
@@ -129,6 +148,12 @@
     <div class="plain-list">
       <a href="writings.html" class="plain-item">一些文字</a>
       <a href="diary.html" class="plain-item">日记</a>
+    </div>
+
+    <!-- 欢迎语 -->
+    <div class="welcome-section">
+      <p class="welcome-text">欢迎！由于挖矿漫画节的契机我在AI的帮助下制作了这个网页，祝你阅读愉快！</p>
+      <p class="welcome-signature">——新名字</p>
     </div>
   </div>
 
