@@ -3,220 +3,285 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>公主奇遇记 | Lei's Manga Works</title>
-
-  <!-- 预加载第一张插图，确保最先出现 -->
-  <link rel="preload" as="image" href="princess/princess_1.jpg" type="image/jpeg">
-
+  <title>Lei's Manga Works</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html { scroll-behavior: smooth; }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: #1a1a1a;
-      color: #fff;
       min-height: 100vh;
-      padding: 90px 16px 70px;
+      position: relative;
       overflow-x: hidden;
     }
-
-    .content {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-      contain: layout style paint;
-    }
-
-    .back {
+    canvas {
       position: fixed;
-      top: 24px;
-      left: 24px;
-      color: rgba(255,255,255,0.35);
-      text-decoration: none;
-      font-size: 1.4rem;
-      z-index: 10;
-      transform: translateZ(0);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
     }
 
-    h1 {
-      font-size: 1.3rem;
-      font-weight: 300;
-      letter-spacing: 0.15em;
-      margin-bottom: 10px;
-      color: rgba(255,255,255,0.6);
-    }
-
-    .subtitle {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.3);
-      margin-bottom: 42px;
-      letter-spacing: 0.05em;
-    }
-
-    .preface {
-      max-width: 600px;
-      margin: 0 auto 45px;
-      line-height: 1.8;
-      color: rgba(255,255,255,0.5);
-      font-size: 0.9rem;
-      text-align: left;
-    }
-
-    .gallery {
+    /* 首屏封面区域 */
+    .hero {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 18px;
+      justify-content: center;
     }
-
-    .gallery img {
+    .box {
+      position: relative;
+      z-index: 1;
+      width: 150px;
+      height: 100px;
+      border: 0px solid rgba(255,255,255,0.15);
+      background: transparent;
+      overflow: hidden;
+      transition: all 0.5s ease;
+      cursor: pointer;
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(255,255,255,0.05);
+    }
+    .box img {
       width: 100%;
-      max-width: 700px;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
       display: block;
-      border-radius: 2px;
-      background: #222;
-      aspect-ratio: 1600 / 1140;
-      opacity: 0;
-      transition: opacity 0.35s ease;
-      contain: layout style paint;
+      opacity: 0.85;
+      mix-blend-mode: screen;
     }
-
-    .gallery img.loaded,
-    .gallery img:first-child {
+    .box:hover {
+      border-color: rgba(255,255,255,0.3);
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.9),
+        0 0 0 1px rgba(255,255,255,0.1),
+        0 0 40px rgba(255,255,255,0.04);
+      transform: translateY(-4px) scale(1.02);
+    }
+    .box:hover img {
       opacity: 1;
     }
 
-    .desc {
-      max-width: 600px;
-      margin: 55px auto 0;
-      line-height: 1.85;
-      color: rgba(255,255,255,0.42);
-      font-size: 0.9rem;
-      text-align: left;
+    /* 滚动提示 */
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.25);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      animation: breathe 2s ease-in-out infinite;
+      z-index: 1;
+    }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.25; }
+      50% { opacity: 0.6; }
     }
 
-    @media (max-width: 768px) {
-      body {
-        padding: 80px 12px 60px;
-      }
-      .back {
-        top: 18px;
-        left: 18px;
-      }
-      .preface,
-      .desc {
-        font-size: 0.88rem;
-      }
+    /* 目录瀑布流区域 */
+    .catalog-section {
+      position: relative;
+      z-index: 1;
+      padding: 80px 16px 100px;
+    }
+    .catalog-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 60px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .catalog-card {
+      display: block;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    /* 关键改动：preview-box 样式现在和 .box 完全一致 */
+    .preview-box {
+      width: 150px;
+      height: 100px;
+      border: 0px solid rgba(255,255,255,0.15);
+      background: transparent;
+      overflow: hidden;
+      transition: all 0.5s ease;
+      cursor: pointer;
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(255,255,255,0.05);
+    }
+    .preview-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.85;
+      mix-blend-mode: screen;
+    }
+
+    /* hover 效果和 .box:hover 完全一致 */
+    .catalog-card:hover .preview-box {
+      border-color: rgba(255,255,255,0.3);
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.9),
+        0 0 0 1px rgba(255,255,255,0.1),
+        0 0 40px rgba(255,255,255,0.04);
+      transform: translateY(-4px) scale(1.02);
+    }
+    .catalog-card:hover .preview-box img {
+      opacity: 1;
+    }
+
+    /* 作品标题 */
+    .card-title {
+      text-align: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      margin-top: 12px;
+      transition: color 0.3s;
+    }
+    .catalog-card:hover .card-title {
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* 页脚 */
+    .footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 20px 60px;
+      color: rgba(255,255,255,0.25);
+      font-size: 0.75rem;
+      line-height: 1.8;
+      letter-spacing: 0.05em;
+    }
+    .footer .sign {
+      display: block;
+      text-align: right;
+      max-width: 800px;
+      margin: 4px auto 0;
     }
   </style>
+<base target="_blank">
 </head>
-
 <body>
-  <a href="index.html" class="back">←</a>
+  <canvas id="rain"></canvas>
 
-  <div class="content">
-    <h1>公主奇遇记</h1>
-    <p class="subtitle">The Princess' Adventure</p>
+  <!-- 首屏封面 -->
+  <div class="hero">
+    <a href="about.html" class="box">
+      <img src="cover.gif" alt="cover">
+    </a>
+    <div class="scroll-hint">↓ 向下滑动浏览 ↓</div>
+  </div>
 
-    <p class="preface">
-      这是我在2025年创作的插画，源于洗澡时的灵光一闪。这里只画出了一部分，名为《鸭子听雷》，公主在雨中跌跌撞撞，落魄间遇见了一群鸭子。
-    </p>
-
-    <div class="gallery">
-      <!-- 第一张：立即加载，最高优先级 -->
-      <img
-        src="princess/princess_1.jpg"
-        alt="插图1"
-        width="700"
-        height="499"
-        loading="eager"
-      >
-
-      <!-- 后面懒加载，限制并发 -->
-      <img data-src="princess/princess_2.jpg" alt="插图2" width="700" height="499">
-      <img data-src="princess/princess_3.jpg" alt="插图3" width="700" height="499">
-      <img data-src="princess/princess_4.jpg" alt="插图4" width="700" height="499">
-      <img data-src="princess/princess_5.jpg" alt="插图5" width="700" height="499">
-      <img data-src="princess/princess_6.jpg" alt="插图6" width="700" height="499">
+  <!-- 目录瀑布流 -->
+  <div class="catalog-section">
+    <div class="catalog-grid">
+      <a href="ami.html" class="catalog-card">
+        <div class="preview-box">
+          <img src="ami_preview.jpg" alt="阿米">
+        </div>
+        <p class="card-title"> 阿 米 </p>
+      </a>
+      <a href="badminton.html" class="catalog-card">
+        <div class="preview-box">
+          <img src="badminton_preview.jpg" alt="羽毛球">
+        </div>
+        <p class="card-title">羽 毛 球</p>
+      </a>
+      <a href="princess.html" class="catalog-card">
+        <div class="preview-box">
+          <img src="princess_preview.jpg" alt="公主奇遇记">
+        </div>
+        <p class="card-title">公 主 奇 遇 记</p>
+      </a>
+      <a href="misc.html" class="catalog-card">
+        <div class="preview-box">
+          <img src="misc_preview.jpg" alt="杂">
+        </div>
+        <p class="card-title"> 杂 </p>
+      </a>
+      <a href="misc.html" class="catalog-card">
+        <div class="preview-box">
+          <img src="misc_preview.jpg" alt="不画了">
+        </div>
+        <p class="card-title">不 画 了</p>
+      </a>
     </div>
+  </div>
 
-    <p class="desc">
-      “鸭子听雷”是在描述鸭子和鹅会出现的一种自然反应，当它们遭遇雷雨时会集体抬头朝向雨的方向一动不动，仿佛站在雨中听雷声。这是由于它们的羽毛上有一层油脂，身子朝向雨的方向能让雨水最快从身上滑过，一动不动地待着是为了减少热量消耗。现在“鸭子听雷”变成一句俗语，比喻人听不懂另一个人说话就像是鸭子听不懂雷声。<br>
-      公主在森林中被荆棘藤蔓纠缠、被雨淋，跌跌撞撞后看见一群雨中静默的鸭子，这样的情节是源于设想她也许要接近村庄了，也同样受到动物们奇异的群体现象所启发，在受到大自然折磨之后，这个场景是给公主的奖赏，这是她以前从未见过的场面。
-    </p>
+  <div class="footer">
+   阅读愉快
   </div>
 
   <script>
-    const images = document.querySelectorAll('img[data-src]');
+    const canvas = document.getElementById('rain');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    const drops = [];
+    const maxDrops = 200;
 
-    // ===== 3.0 加载系统 =====
-    const queue = [];
-    let active = 0;
-    const MAX_CONCURRENT = 2;
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
 
-    // 加载单张图
-    function load(img) {
-      return new Promise((resolve) => {
-        const src = img.dataset.src;
-        if (!src) return resolve();
-
-        img.src = src;
-
-        const done = () => {
-          img.classList.add('loaded');
-          resolve();
-        };
-
-        if (img.decode) {
-          img.decode().then(done).catch(() => img.onload = done);
-        } else {
-          img.onload = done;
+    class Drop {
+      constructor() {
+        this.reset(true);
+      }
+      reset(initial = false) {
+        this.x = Math.random() * (width + 200) - 100;
+        this.y = initial ? Math.random() * height : Math.random() * -50;
+        this.len = Math.random() * 20 + 10;
+        this.speed = Math.random() * 4 + 3;
+        this.opacity = Math.random() * 0.3 + 0.08;
+        this.drift = Math.random() * 0.8 + 0.2;
+        this.width = Math.random() * 0.6 + 0.3;
+      }
+      update() {
+        this.y += this.speed;
+        this.x += this.drift;
+        if (this.y > height + 20) {
+          this.reset();
         }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x + this.drift * 0.6, this.y + this.len);
+        ctx.strokeStyle = `rgba(180,195,215,${this.opacity})`;
+        ctx.lineWidth = this.width;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+    }
+
+    for (let i = 0; i < maxDrops; i++) {
+      drops.push(new Drop());
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      drops.forEach(drop => {
+        drop.update();
+        drop.draw();
       });
+      requestAnimationFrame(animate);
     }
-
-    // 队列处理
-    function next() {
-      if (active >= MAX_CONCURRENT || queue.length === 0) return;
-
-      while (active < MAX_CONCURRENT && queue.length > 0) {
-        const img = queue.shift();
-        active++;
-
-        load(img).finally(() => {
-          active--;
-          next();
-        });
-      }
-    }
-
-    // IntersectionObserver
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-
-          if (!queue.includes(img)) {
-            queue.push(img);
-            next();
-          }
-
-          observer.unobserve(img);
-        }
-      }
-    }, {
-      rootMargin: '600px 0px',
-      threshold: 0.01
-    });
-
-    images.forEach(img => observer.observe(img));
+    animate();
   </script>
 </body>
 </html>
