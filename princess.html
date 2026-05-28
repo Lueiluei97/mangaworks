@@ -84,8 +84,11 @@
       background: #222;
       aspect-ratio: 1600 / 1140;
       opacity: 0;
-      transition: opacity 0.35s ease;
-      contain: layout style paint;
+      transition: opacity .25s linear;
+      content-visibility: auto;
+      contain-intrinsic-size: 700px 499px;
+      transform: translateZ(0);
+      will-change: opacity;
     }
 
     .gallery img.loaded,
@@ -132,7 +135,7 @@
     <div class="gallery">
       <!-- 第一张：立即加载，最高优先级 -->
       <img
-        src="princess/princess_1.jpg"
+        src="princess/princess_1.webp"
         alt="插图1"
         width="700"
         height="499"
@@ -140,11 +143,11 @@
       >
 
       <!-- 后面懒加载，限制并发 -->
-      <img data-src="princess/princess_2.jpg" alt="插图2" width="700" height="499">
-      <img data-src="princess/princess_3.jpg" alt="插图3" width="700" height="499">
-      <img data-src="princess/princess_4.jpg" alt="插图4" width="700" height="499">
-      <img data-src="princess/princess_5.jpg" alt="插图5" width="700" height="499">
-      <img data-src="princess/princess_6.jpg" alt="插图6" width="700" height="499">
+      <img data-src="princess/princess_2.webp" alt="插图2" width="700" height="499">
+      <img data-src="princess/princess_3.webp" alt="插图3" width="700" height="499">
+      <img data-src="princess/princess_4.webp" alt="插图4" width="700" height="499">
+      <img data-src="princess/princess_5.webp" alt="插图5" width="700" height="499">
+      <img data-src="princess/princess_6.webp" alt="插图6" width="700" height="499">
     </div>
 
     <p class="desc">
