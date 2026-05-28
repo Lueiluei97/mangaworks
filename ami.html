@@ -5,51 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>阿米 | Lei's Manga Works</title>
 
+  <!-- 首屏封面预加载 -->
   <link rel="preload" as="image" href="ami/ami_cover.webp" type="image/webp">
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
       background: #1a1a1a;
       color: #fff;
+
       min-height: 100vh;
+
       padding: 90px 16px 70px;
+
       overflow-x: hidden;
+
+      /* 滚动更稳定 */
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
     .content {
       max-width: 800px;
       margin: 0 auto;
       text-align: center;
-      contain: layout style paint;
     }
 
     .back {
       position: fixed;
       top: 24px;
       left: 24px;
+
       color: rgba(255,255,255,0.35);
+
       text-decoration: none;
       font-size: 1.4rem;
+
       z-index: 10;
+
       transform: translateZ(0);
+      backface-visibility: hidden;
     }
 
     h1 {
       font-size: 1.3rem;
       font-weight: 300;
+
       letter-spacing: 0.15em;
+
       margin-bottom: 10px;
+
       color: rgba(255,255,255,0.6);
     }
 
     .subtitle {
       font-size: 0.85rem;
       color: rgba(255,255,255,0.3);
+
       margin-bottom: 42px;
     }
 
@@ -57,20 +87,45 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+
       gap: 18px;
     }
 
     .gallery img {
       width: 100%;
       max-width: 700px;
+
       height: auto;
+
       display: block;
+
       border-radius: 2px;
       background: #222;
+
       aspect-ratio: 700 / 990;
+
       opacity: 0;
-      transition: opacity 0.35s ease;
-      contain: layout style paint;
+
+      /* 更稳定的淡入 */
+      transition: opacity .2s linear;
+
+      /* 长页面性能优化 */
+      content-visibility: auto;
+      contain-intrinsic-size: auto 990px;
+
+      /* GPU优化 */
+      transform: translateZ(0);
+      backface-visibility: hidden;
+
+      /* 避免浏览器频繁重绘 */
+      will-change: opacity;
+    }
+
+    /* 横图特殊比例 */
+    .gallery img[alt="15"],
+    .gallery img[alt="16"] {
+      aspect-ratio: 700 / 495;
+      contain-intrinsic-size: auto 495px;
     }
 
     .gallery img.loaded,
@@ -80,121 +135,212 @@
 
     .desc {
       max-width: 600px;
+
       margin: 60px auto 0;
+
       line-height: 1.9;
+
       color: rgba(255,255,255,0.42);
+
       font-size: 0.9rem;
+
       text-align: left;
+    }
+
+    @media (max-width: 768px) {
+
+      body {
+        padding: 80px 12px 60px;
+      }
+
+      .back {
+        top: 18px;
+        left: 18px;
+      }
+
+      .desc {
+        font-size: 0.88rem;
+      }
+
+      .gallery {
+        gap: 14px;
+      }
     }
   </style>
 </head>
 
 <body>
+
   <a href="index.html" class="back">←</a>
 
   <div class="content">
+
     <h1>阿 米</h1>
+
     <p class="subtitle">ami</p>
 
     <div class="gallery">
-      <img src="ami/ami_cover.webp" alt="cover" width="700" height="990" loading="eager">
 
-      <img data-src="ami/ami_1.webp" alt="1" width="700" height="990">
-      <img data-src="ami/ami_2.webp" alt="2" width="700" height="990">
-      <img data-src="ami/ami_3.webp" alt="3" width="700" height="990">
-      <img data-src="ami/ami_4.webp" alt="4" width="700" height="990">
-      <img data-src="ami/ami_5.webp" alt="5" width="700" height="990">
-      <img data-src="ami/ami_6.webp" alt="6" width="700" height="990">
-      <img data-src="ami/ami_7.webp" alt="7" width="700" height="990">
-      <img data-src="ami/ami_8.webp" alt="8" width="700" height="990">
-      <img data-src="ami/ami_9.webp" alt="9" width="700" height="990">
-      <img data-src="ami/ami_10.webp" alt="10" width="700" height="990">
-      <img data-src="ami/ami_11.webp" alt="11" width="700" height="990">
-      <img data-src="ami/ami_12.webp" alt="12" width="700" height="990">
-      <img data-src="ami/ami_13.webp" alt="13" width="700" height="990">
-      <img data-src="ami/ami_14.webp" alt="14" width="700" height="990">
-      <img data-src="ami/ami_15.webp" alt="15" width="700" height="495">
-      <img data-src="ami/ami_16.webp" alt="16" width="700" height="495">
+      <!-- 首图立即加载 -->
+      <img
+        src="ami/ami_cover.webp"
+        alt="cover"
+        width="700"
+        height="990"
+        loading="eager"
+        fetchpriority="high"
+      >
+
+      <!-- 后续全部懒加载 -->
+      <img data-src="ami/ami_1.webp" alt="1" width="700" height="990" loading="lazy">
+      <img data-src="ami/ami_2.webp" alt="2" width="700" height="990" loading="lazy">
+      <img data-src="ami/ami_3.webp" alt="3" width="700" height="990" loading="lazy">
+      <img data-src="ami/ami_4.webp" alt="4" width="700" height="990" loading="lazy">
+      <img data-src="ami/ami_5.webp" alt="5" width="700" height="990" loading="lazy">
+      <img data-src="ami/ami_6.webp" alt="6" width="700" height="990" loading="lazy">
+      <img data-src="ami/ami_7.webp" alt="7" width="700" height="990" loading="lazy">
+      <img data-src="ami/ami_8.webp" alt="8" width="700" height="990" loading="lazy">
+      <img data-src="ami/ami_9.webp" alt="9" width="700" height="990" loading="lazy">
+      <img data-src="ami/ami_10.webp" alt="10" width="700" height="990" loading="lazy">
+      <img data-src="ami/ami_11.webp" alt="11" width="700" height="990" loading="lazy">
+      <img data-src="ami/ami_12.webp" alt="12" width="700" height="990" loading="lazy">
+      <img data-src="ami/ami_13.webp" alt="13" width="700" height="990" loading="lazy">
+      <img data-src="ami/ami_14.webp" alt="14" width="700" height="990" loading="lazy">
+
+      <!-- 横图 -->
+      <img data-src="ami/ami_15.webp" alt="15" width="700" height="495" loading="lazy">
+      <img data-src="ami/ami_16.webp" alt="16" width="700" height="495" loading="lazy">
+
     </div>
 
     <p class="desc">
       这篇漫画画于2025年的下半年，当时只画了一半，在两个月前报名参加挖矿漫画节后又再翻出来把它画完。
       <br><br>
-      去年我也感觉自己陷入比较抑郁的状况之中，当时画的时候脑海里创造出了一个朋友的形象（Ami 在法语里有"朋友"的意思），相当于是主角在给一个虚幻的朋友写的信。
+
+      去年我也感觉自己陷入比较抑郁的状况之中，当时画的时候脑海里创造出了一个朋友的形象（Ami 在法语里有“朋友”的意思），相当于是主角在给一个虚幻的朋友写的信。
       <br><br>
+
       这个虚幻的朋友关注着她，给她提供力量，同时朋友身上也有主人公所不理解的东西。
       <br><br>
+
       虽然没有办法立刻让读完漫画的朋友高兴起来，但还是希望所有人都有从消沉中抬起头望天空的心情。
       <br><br>
+
       感谢你的阅读。
     </p>
+
   </div>
 
-<script>
-const images = document.querySelectorAll('img[data-src]');
+  <script>
 
-// ===== 3.0 加载系统 =====
-const queue = [];
-let active = 0;
-const MAX_CONCURRENT = 2;
+    const images = document.querySelectorAll('img[data-src]');
 
-// 加载单张图
-function load(img) {
-  return new Promise((resolve) => {
-    const src = img.dataset.src;
-    if (!src) return resolve();
+    // ===== 4.0 漫画加载系统 =====
 
-    img.src = src;
+    const queue = [];
 
-    const done = () => {
-      img.classList.add('loaded');
-      resolve();
-    };
+    let active = 0;
 
-    if (img.decode) {
-      img.decode().then(done).catch(() => img.onload = done);
-    } else {
-      img.onload = done;
+    // 手机限制并发更稳定
+    const MAX_CONCURRENT =
+      navigator.connection?.saveData ? 1 : 2;
+
+    // 加载单张图片
+    function load(img) {
+
+      return new Promise((resolve) => {
+
+        // 防止重复加载
+        if (img.dataset.loaded) {
+          resolve();
+          return;
+        }
+
+        img.dataset.loaded = "1";
+
+        const src = img.dataset.src;
+
+        // 浏览器优化提示
+        img.decoding = "async";
+        img.fetchPriority = "low";
+
+        // 加载完成
+        img.onload = () => {
+
+          img.classList.add('loaded');
+
+          resolve();
+        };
+
+        // 出错也继续队列
+        img.onerror = resolve;
+
+        // 开始加载
+        img.src = src;
+
+      });
     }
-  });
-}
 
-// 队列处理
-function next() {
-  if (active >= MAX_CONCURRENT || queue.length === 0) return;
+    // 队列调度
+    function next() {
 
-  while (active < MAX_CONCURRENT && queue.length > 0) {
-    const img = queue.shift();
-    active++;
+      if (
+        active >= MAX_CONCURRENT ||
+        queue.length === 0
+      ) return;
 
-    load(img).finally(() => {
-      active--;
-      next();
-    });
-  }
-}
+      while (
+        active < MAX_CONCURRENT &&
+        queue.length > 0
+      ) {
 
-// IntersectionObserver
-const observer = new IntersectionObserver((entries) => {
-  for (const entry of entries) {
-    if (entry.isIntersecting) {
-      const img = entry.target;
+        const img = queue.shift();
 
-      if (!queue.includes(img)) {
-        queue.push(img);
-        next();
+        active++;
+
+        load(img).finally(() => {
+
+          active--;
+
+          // 下一帧再继续
+          requestAnimationFrame(next);
+
+        });
       }
-
-      observer.unobserve(img);
     }
-  }
-}, {
-  rootMargin: '600px 0px',
-  threshold: 0.01
-});
 
-images.forEach(img => observer.observe(img));
-</script>
+    // 视口观察
+    const observer = new IntersectionObserver((entries) => {
+
+      entries.forEach(entry => {
+
+        if (!entry.isIntersecting) return;
+
+        const img = entry.target;
+
+        if (!queue.includes(img)) {
+
+          queue.push(img);
+
+          next();
+        }
+
+        observer.unobserve(img);
+
+      });
+
+    }, {
+
+      // 不提前太远
+      rootMargin: '150px 0px',
+
+      threshold: 0.01
+    });
+
+    // 开始监听
+    images.forEach(img => observer.observe(img));
+
+  </script>
 
 </body>
 </html>
