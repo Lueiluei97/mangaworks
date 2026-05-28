@@ -6,7 +6,7 @@
   <title>公主奇遇记 | Lei's Manga Works</title>
 
   <!-- 预加载第一张插图，确保最先出现 -->
-  <link rel="preload" as="image" href="princess/princess_1.jpg">
+  <link rel="preload" as="image" href="princess/princess_1.jpg" type="image/jpeg">
 
   <style>
     * {
@@ -116,7 +116,6 @@
       }
     }
   </style>
-<base target="_blank">
 </head>
 
 <body>
@@ -137,16 +136,15 @@
         alt="插图1"
         width="700"
         height="499"
-        fetchpriority="high"
-        decoding="async"
+        loading="eager"
       >
 
       <!-- 后面懒加载，限制并发 -->
-      <img data-src="princess/princess_2.jpg" alt="插图2" width="700" height="499" decoding="async">
-      <img data-src="princess/princess_3.jpg" alt="插图3" width="700" height="499" decoding="async">
-      <img data-src="princess/princess_4.jpg" alt="插图4" width="700" height="499" decoding="async">
-      <img data-src="princess/princess_5.jpg" alt="插图5" width="700" height="499" decoding="async">
-      <img data-src="princess/princess_6.jpg" alt="插图6" width="700" height="499" decoding="async">
+      <img data-src="princess/princess_2.jpg" alt="插图2" width="700" height="499">
+      <img data-src="princess/princess_3.jpg" alt="插图3" width="700" height="499">
+      <img data-src="princess/princess_4.jpg" alt="插图4" width="700" height="499">
+      <img data-src="princess/princess_5.jpg" alt="插图5" width="700" height="499">
+      <img data-src="princess/princess_6.jpg" alt="插图6" width="700" height="499">
     </div>
 
     <p class="desc">
