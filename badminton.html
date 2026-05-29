@@ -1,211 +1,133 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
-
 <head>
-
   <meta charset="utf-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>羽毛球 | Lei's Manga Works</title>
 
   <style>
-
     * {
-
       margin: 0;
-
       padding: 0;
-
       box-sizing: border-box;
-
     }
 
     body {
-
       font-family:
-
         -apple-system,
-
         BlinkMacSystemFont,
-
         "Segoe UI",
-
         Roboto,
-
         "Helvetica Neue",
-
         Arial,
-
         sans-serif;
-
       background: #1a1a1a;
-
       color: #fff;
-
       min-height: 100vh;
-
       padding: 90px 16px 70px;
-
       overflow-x: hidden;
-
     }
 
     .content {
-
       max-width: 800px;
-
       margin: 0 auto;
-
       text-align: center;
-
     }
 
     .back {
-
       position: fixed;
-
       top: 24px;
-
       left: 24px;
-
       color: rgba(255,255,255,0.35);
-
       text-decoration: none;
-
       font-size: 1.4rem;
-
       z-index: 10;
-
     }
 
     h1 {
-
       font-size: 1.3rem;
-
       font-weight: 300;
-
       letter-spacing: 0.15em;
-
       margin-bottom: 10px;
-
       color: rgba(255,255,255,0.6);
-
     }
 
     .subtitle {
-
       font-size: 0.85rem;
-
       color: rgba(255,255,255,0.3);
-
       margin-bottom: 42px;
-
       letter-spacing: 0.05em;
-
     }
 
     .gallery {
-
       display: flex;
-
       flex-direction: column;
-
       align-items: center;
-
       gap: 18px;
-
     }
 
     .gallery img {
-
       width: 100%;
-
       max-width: 700px;
-
       height: auto;
-
       display: block;
-
       border-radius: 2px;
-
       background: #222;
+    }
 
+    /* === 新增：描述文字居左 === */
+    .desc {
+      max-width: 600px;
+      margin: 55px auto 0;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.42);
+      font-size: 0.9rem;
+      text-align: left;
     }
 
     @media (max-width: 768px) {
-
       body {
-
         padding: 80px 12px 60px;
-
       }
-
       .gallery {
-
         gap: 14px;
-
       }
-
       .back {
-
         top: 18px;
-
         left: 18px;
-
       }
-
     }
-
   </style>
-
 </head>
 
 <body>
-
   <a href="index.html" class="back">←</a>
 
   <div class="content">
-
     <h1>羽 毛 球</h1>
-
     <p class="subtitle">badminton</p>
 
     <div class="gallery">
-
       <!-- 第一张直接加载 -->
-
       <img
-
         src="badminton/badminton_1.jpg"
-
         alt="漫画页面1"
-
         loading="eager"
-
         decoding="async"
-
       >
 
       <!-- 后面懒加载 -->
-
       <img data-src="badminton/badminton_2.jpg" alt="漫画页面2">
-
       <img data-src="badminton/badminton_3.jpg" alt="漫画页面3">
-
       <img data-src="badminton/badminton_4.jpg" alt="漫画页面4">
-
       <img data-src="badminton/badminton_5.jpg" alt="漫画页面5">
-
       <img data-src="badminton/badminton_6.jpg" alt="漫画页面6">
-
     </div>
 
     <p class="desc">
       这篇是这个月画的，因为不知道表达什么而随便开始，画了一个男人和一个女人，或许由于我和朋友有时会在家里打羽毛球（外面有风），于是自然地就让他们打羽毛球。
       <br><br>
-      这种有点“丑”的人物形象也是我对自己的练习，再次看的时候还是有种丑丑的感觉。到底什么是漫画最重要的东西呢？我喜欢的日本漫画家高野文子在创作《黄色封面的书》时也创作了不那么美的脸，她试图突出动作，而让读者不是把重点放在脸庞上，她成功了。因为得知这个，所以我做了这篇漫画。
+      这种有点“丑”的人物形象也是我对自己的练习，再次看的时候还是有种丑丑的感觉。到底什么是漫画最重要的东西呢？我喜欢的日本漫画家高野文子的创作《黄色封面的书》，她也画下了不那么美的脸，她想要突出动作，而让读者不是把重点放在脸庞上，她成功了。这也是对她的创作方式的一种模仿。
       <br><br>
       说实话，我少有觉得画画“幸福”的时刻，但是在脑中想象这段情节的时候心里很激动，也许就是我认为的人们之间的最好的互动吧—— 在一个有限制情况下相互帮助、合作找到自由。
       <br><br>
@@ -214,45 +136,26 @@
   </div>
 
   <script>
-
     const lazyImages = document.querySelectorAll('img[data-src]');
 
     const observer = new IntersectionObserver((entries, obs) => {
-
       entries.forEach(entry => {
-
         if (entry.isIntersecting) {
-
           const img = entry.target;
-
           img.src = img.dataset.src;
-
           img.loading = "lazy";
-
           img.decoding = "async";
-
           obs.unobserve(img);
-
         }
-
       });
-
     }, {
-
       rootMargin: '0px',
-
       threshold: 0
-
     });
 
     lazyImages.forEach(img => {
-
       observer.observe(img);
-
     });
-
   </script>
-
 </body>
-
 </html>
