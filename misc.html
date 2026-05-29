@@ -1,246 +1,174 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
-
 <head>
-
   <meta charset="utf-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>杂 | Lei's Manga Works</title>
-
   <style>
-
     * {
-
       margin: 0;
-
       padding: 0;
-
       box-sizing: border-box;
-
     }
-
     body {
-
-      font-family:
-
-        -apple-system,
-
-        BlinkMacSystemFont,
-
-        "Segoe UI",
-
-        Roboto,
-
-        "Helvetica Neue",
-
-        Arial,
-
-        sans-serif;
-
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: #1a1a1a;
-
       color: #fff;
-
       min-height: 100vh;
-
       padding: 90px 16px 70px;
-
       overflow-x: hidden;
-
     }
-
     .content {
-
       max-width: 800px;
-
       margin: 0 auto;
-
       text-align: center;
-
     }
-
     .back {
-
       position: fixed;
-
       top: 24px;
-
       left: 24px;
-
       color: rgba(255,255,255,0.35);
-
       text-decoration: none;
-
       font-size: 1.4rem;
-
       z-index: 10;
-
     }
-
     h1 {
-
       font-size: 1.3rem;
-
       font-weight: 300;
-
       letter-spacing: 0.15em;
-
       margin-bottom: 10px;
-
       color: rgba(255,255,255,0.6);
-
+    }
+    .subtitle {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 42px;
+      letter-spacing: 0.05em;
     }
 
-    .subtitle {
-
-      font-size: 0.85rem;
-
-      color: rgba(255,255,255,0.3);
-
-      margin-bottom: 42px;
-
-      letter-spacing: 0.05em;
-
+    /* === 新增：开篇介绍 === */
+    .preface {
+      max-width: 600px;
+      margin: 0 auto 45px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.9rem;
+      text-align: left;
     }
 
     .gallery {
-
       display: flex;
-
       flex-direction: column;
-
       align-items: center;
-
       gap: 18px;
+    }
 
+    /* === 新增：图片与说明组合 === */
+    .gallery figure {
+      width: 100%;
+      max-width: 700px;
+      margin: 0;
     }
 
     .gallery img {
-
       width: 100%;
-
-      max-width: 700px;
-
       height: auto;
-
       display: block;
-
       border-radius: 2px;
-
       background: #222;
+    }
 
+    figcaption {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      text-align: left;
+      line-height: 1.6;
     }
 
     .desc {
-
       max-width: 600px;
-
       margin: 55px auto 0;
-
       line-height: 1.85;
-
       color: rgba(255,255,255,0.42);
-
       font-size: 0.9rem;
-
       text-align: left;
-
     }
 
     @media (max-width: 768px) {
-
       body {
-
         padding: 80px 12px 60px;
-
       }
-
       .back {
-
         top: 18px;
-
         left: 18px;
-
       }
-
     }
-
   </style>
-
 </head>
 
 <body>
-
   <a href="index.html" class="back">←</a>
 
   <div class="content">
-
     <h1>杂</h1>
-
     <p class="subtitle">miscellaneous</p>
 
+    <!-- === 开篇介绍（在这里改文字）=== -->
+    <p class="preface">
+      这里收集了一些涂鸦与随笔。
+    </p>
+
     <div class="gallery">
+      <!-- === 图1 === -->
+      <figure>
+        <img data-src="misc/misc_1.jpeg" alt="杂项2">
+        <figcaption>一个脸上长土豆的男孩，来自另外一个没有结局的故事《S的秘密》，画的是主角的童年。</figcaption>
+      </figure>
 
-      <!-- 后续懒加载 -->
+      <!-- === 图2 === -->
+      <figure>
+        <img data-src="misc/misc_2.jpeg" alt="杂项3">
+        <figcaption>水粉画，2020年在北理工一个小宿舍，用美纹纸把纸贴在墙面的瓷砖上画的，取名为《未来的未来和现在》。<br>
+        这个注释是在晚上写的，不知道为什么有点感动。我记得我首先用黑色画了一个洞，然后我发现这个洞有点像一只蛹或者小虫，接着我画了一个转角，让她站在墙前。为什么那时的我会取这样的名字呢？说实话，我已经忘记画画的快乐很久了，这幅画让我有点emotional。<br>
+        </figcaption>
+      </figure>
 
-      <img data-src="misc/misc_1.jpeg" alt="杂项2">
+      <!-- === 图3 === -->
+      <figure>
+        <img data-src="misc/misc_3.jpeg" alt="杂项4">
+        <figcaption>第三张图的介绍文字</figcaption>
+      </figure>
 
-      <img data-src="misc/misc_2.jpeg" alt="杂项3">
-
-      <img data-src="misc/misc_3.jpeg" alt="杂项4">
-
-      <img data-src="misc/misc_4.webp" alt="杂项5">
-
-
+      <!-- === 图4 === -->
+      <figure>
+        <img data-src="misc/misc_4.webp" alt="杂项5">
+        <figcaption>第四张图的介绍文字</figcaption>
+      </figure>
     </div>
 
     <p class="desc">
-
       一些零散的涂鸦和随笔。
-
     </p>
-
   </div>
 
   <script>
-
     const lazyImages = document.querySelectorAll('img[data-src]');
-
     const observer = new IntersectionObserver((entries, obs) => {
-
       entries.forEach(entry => {
-
         if (entry.isIntersecting) {
-
           const img = entry.target;
-
           img.src = img.dataset.src;
-
           img.loading = "lazy";
-
           img.decoding = "async";
-
           obs.unobserve(img);
-
         }
-
       });
-
     }, {
-
       rootMargin: '0px',
-
       threshold: 0
-
     });
-
     lazyImages.forEach(img => observer.observe(img));
-
   </script>
-
 </body>
-
 </html>
